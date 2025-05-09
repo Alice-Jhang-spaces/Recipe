@@ -1,0 +1,93 @@
+.navbar-custom {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 20px 0;
+  position: fixed;
+  top:0;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.navbar-left a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 6px 12px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.navbar-left a:hover {
+  background-color: #444;  /* dark hover background */
+  color: white;
+}
+.navbar-left a.active {
+  background-color: #444;
+  color: white;
+}
+
+
+.create-btn, .dashboard-btn {
+  background: #f1af4d;
+  color: white;
+  padding: 10px 12px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.dashboard-btn:hover{
+  background: #7cb2f0;
+}
+
+.create-btn:hover {
+  background: #eec04b;
+}
+
+
+
+
+
+.signup-btn {
+  background: #f8b400;
+  color: black;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.signup-btn:hover {
+  background: white;
+}
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
