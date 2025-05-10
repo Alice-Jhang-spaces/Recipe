@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../css/Login.css'; // Reuse CSS styling
-
-const API_BASE = "http://recipe-api-env.eba-vbe3vcqe.us-east-1.elasticbeanstalk.com";
+import '../css/Login.css'; // Reuse styling
+import { API_BASE_URL } from '../api'; // ✅ import your shared API base URL
 
 function Register() {
   const [form, setForm] = useState({ username: '', email: '', password: '' });
@@ -14,15 +13,15 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${API_BASE}/api/users/register`, form);
+      const res = await axios.post(`${API_BASE_URL}/users/register`, form); // ✅ no duplicate /api
       alert('Registration successful!');
 
-      // Store returned values if your backend provides them
+      // If backend returns userId and token
       localStorage.setItem('userId', res.data.userId);
       localStorage.setItem('token', res.data.token);
 
-      // Optionally redirect to dashboard or login
-      // navigate('/login');
+      // Optional redirect
+      // navigate('/dashboard');
     } catch (err) {
       console.error(err);
       alert(err.response?.data?.message || 'Error during registration.');

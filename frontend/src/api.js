@@ -1,8 +1,10 @@
+// src/api.js
 const isProd = import.meta.env.PROD;
 
 export const API_BASE_URL = isProd
   ? 'https://recipe-api-env.eba-vbe3vcqe.us-east-1.elasticbeanstalk.com/api'
-  : '/api'; // Will be proxied to localhost:3001 by Vite during dev
+  : '/api'; // Vite dev proxy
+
 
 export const fetchRecipes = async () => {
   const res = await fetch(`${API_BASE_URL}/recipes`);
