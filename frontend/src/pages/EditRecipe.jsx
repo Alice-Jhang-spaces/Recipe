@@ -3,13 +3,15 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../css/CreateRecipe.css'; // ✅ Reuse the same styles
 
+const API_BASE_URL = 'https://recipe-api-env.eba-vbe3vcqe.us-east-1.elasticbeanstalk.com';
+
 function EditRecipe() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/api/recipes`)
+    axios.get(`${API_BASE_URL}/api/recipes`)
       .then(res => {
         const found = res.data.find(r => r._id === id);
         if (found) {
@@ -18,6 +20,10 @@ function EditRecipe() {
             newImage: null, // for optional image replacement
           });
         }
+      })
+      .catch(err => {
+        console.error('Error loading recipe:', err);
+        alert('Failed to load recipe');
       });
   }, [id]);
 
@@ -52,7 +58,7 @@ function EditRecipe() {
     const token = localStorage.getItem('token');
 
     try {
-      await axios.put(`http://localhost:3001/api/recipes/${id}`, formData, {
+      await axios.put(`${API_BASE_URL}/api/recipes/${id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
@@ -61,7 +67,7 @@ function EditRecipe() {
       alert('Recipe updated!');
       navigate('/dashboard');
     } catch (err) {
-      console.error(err);
+      console.error('Error updating recipe:', err);
       alert('Error updating recipe');
     }
   };

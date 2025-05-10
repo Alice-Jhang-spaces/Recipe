@@ -3,16 +3,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/Dashboard.css';
 
+const API_BASE_URL = 'https://recipe-api-env.eba-vbe3vcqe.us-east-1.elasticbeanstalk.com';
+
 function Dashboard() {
   const [userRecipes, setUserRecipes] = useState([]);
-  const userId = localStorage.getItem('userId'); // set at login
+  const userId = localStorage.getItem('userId');
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserRecipes = async () => {
       try {
-        const res = await axios.get(`/api/recipes/user/${userId}`);
+        const res = await axios.get(`${API_BASE_URL}/api/recipes/user/${userId}`);
         setUserRecipes(res.data);
       } catch (err) {
         console.error('Failed to fetch recipes:', err);
@@ -25,10 +27,9 @@ function Dashboard() {
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm('Are you sure you want to delete this recipe?');
     if (!confirmDelete) return;
-  
+
     try {
-      const token = localStorage.getItem('token'); // ⬅ double check this
-      await axios.delete(`http://localhost:3001/api/recipes/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/recipes/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -39,7 +40,6 @@ function Dashboard() {
       alert('Error deleting recipe');
     }
   };
-  
 
   return (
     <div className="container mt-5">
@@ -51,7 +51,7 @@ function Dashboard() {
         {userRecipes.map((recipe) => (
           <div className="recipe-card" key={recipe._id}>
             <img
-              src={`http://localhost:3001${recipe.imageUrl}`}
+              src={`${API_BASE_URL}${recipe.imageUrl}`}
               alt={recipe.name}
               className="recipe-image"
             />

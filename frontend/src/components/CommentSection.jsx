@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../css/CommentSection.css'; // Optional, if you want to move styles
+import '../css/CommentSection.css';
+
+const API_BASE_URL = 'https://recipe-api-env.eba-vbe3vcqe.us-east-1.elasticbeanstalk.com';
 
 function CommentSection({ recipeId }) {
   const [comments, setComments] = useState([]);
@@ -9,7 +11,7 @@ function CommentSection({ recipeId }) {
 
   const fetchComments = async () => {
     try {
-      const res = await axios.get(`/api/comments/${recipeId}`);
+      const res = await axios.get(`${API_BASE_URL}/api/comments/${recipeId}`);
       setComments(res.data);
     } catch (err) {
       console.error('Error fetching comments:', err);
@@ -25,8 +27,11 @@ function CommentSection({ recipeId }) {
 
     const token = localStorage.getItem('token');
     try {
-      await axios.post('/api/comments', formData, {
-        headers: { Authorization: `Bearer ${token}` }
+      await axios.post(`${API_BASE_URL}/api/comments`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+        }
       });
       setText('');
       setImage(null);
@@ -49,7 +54,11 @@ function CommentSection({ recipeId }) {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImage(e.target.files[0])}
+        />
         <button type="submit">Post Comment</button>
       </form>
 
@@ -59,7 +68,7 @@ function CommentSection({ recipeId }) {
             <p><strong>{comment.username}</strong>: {comment.text}</p>
             {comment.imageUrl && (
               <img
-                src={`http://localhost:3001${comment.imageUrl}`}
+                src={`${API_BASE_URL}${comment.imageUrl}`}
                 alt="Comment"
                 className="comment-image"
               />

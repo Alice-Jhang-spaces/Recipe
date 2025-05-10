@@ -6,6 +6,8 @@ import '../css/RecipeDetail.css';
 import HeartButton from '../components/HeartButton';
 import CommentSection from '../components/CommentSection';
 
+const API_BASE_URL = 'https://recipe-api-env.eba-vbe3vcqe.us-east-1.elasticbeanstalk.com';
+
 function RecipeDetail() {
   const userId = localStorage.getItem('userId');
   const token = localStorage.getItem('token');
@@ -39,7 +41,7 @@ function RecipeDetail() {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:3001/api/recipes/${id}`, {
+      await axios.delete(`${API_BASE_URL}/api/recipes/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert('Recipe deleted.');
@@ -67,7 +69,7 @@ function RecipeDetail() {
 
         {recipe.imageUrl && (
           <img
-            src={`http://localhost:3001${recipe.imageUrl}`}
+            src={`${API_BASE_URL}${recipe.imageUrl}`}
             alt={recipe.name}
             className="recipe-image"
           />

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../css/Login.css'; // Ensure this file exists and is styled
 
+const API_BASE_URL = 'https://recipe-api-env.eba-vbe3vcqe.us-east-1.elasticbeanstalk.com';
+
 function Login() {
   const [form, setForm] = useState({ email: '', password: '' });
 
@@ -12,7 +14,7 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/api/users/login', form);
+      const response = await axios.post(`${API_BASE_URL}/api/users/login`, form);
 
       const { token, userId, username } = response.data;
 

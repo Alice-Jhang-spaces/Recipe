@@ -12,7 +12,7 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3001/api/users/register', form);
+      const res = await axios.post('https://recipe-api-env.eba-vbe3vcqe.us-east-1.elasticbeanstalk.com/api/users/register', form);
       alert('Registration successful!');
       // Optionally, store the token and redirect
       localStorage.setItem('userId', response.data.userId); // backend must return it

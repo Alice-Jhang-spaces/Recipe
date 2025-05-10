@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../css/CreateRecipe.css';
 
+const API_BASE_URL = 'https://recipe-api-env.eba-vbe3vcqe.us-east-1.elasticbeanstalk.com';
+
 function CreateRecipe() {
   const [recipeName, setRecipeName] = useState('');
-  const [ingredients, setIngredients] = useState([
-    { name: '', amount: 0, unit: '' }
-  ]); 
+  const [ingredients, setIngredients] = useState([{ name: '', amount: 0, unit: '' }]);
   const [steps, setSteps] = useState(['']);
   const [image, setImage] = useState(null);
 
@@ -15,13 +15,13 @@ function CreateRecipe() {
     updated[index][field] = value;
     setIngredients(updated);
   };
-  
+
   const addIngredient = () => {
     setIngredients([...ingredients, { name: '', amount: 0, unit: '' }]);
   };
-  
 
   const addStep = () => setSteps([...steps, '']);
+
   const handleStepChange = (i, val) => {
     const updated = [...steps];
     updated[i] = val;
@@ -39,13 +39,18 @@ function CreateRecipe() {
     const token = localStorage.getItem('token');
 
     try {
-      const res = await axios.post('http://localhost:3001/api/recipes', formData, {
+      const res = await axios.post(`${API_BASE_URL}/api/recipes`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`, // ✅ Include token
+          Authorization: `Bearer ${token}`,
         },
       });
       alert('Recipe created!');
+      // Optionally reset form
+      setRecipeName('');
+      setIngredients([{ name: '', amount: 0, unit: '' }]);
+      setSteps(['']);
+      setImage(null);
     } catch (err) {
       console.error(err);
       alert('Error submitting recipe.');
@@ -66,7 +71,6 @@ function CreateRecipe() {
         <label>Ingredients</label>
         {ingredients.map((item, i) => (
           <div key={i} className="ingredient-group">
-            {/* Ingredient name */}
             <input
               type="text"
               placeholder="Ingredient (e.g., Cheese)"
@@ -74,19 +78,17 @@ function CreateRecipe() {
               onChange={e => handleIngredientChange(i, 'name', e.target.value)}
             />
 
-            {/* Amount with + / - */}
             <div className="amount-control">
-              <button type="button" onClick={() => handleIngredientChange(i, 'amount', Math.max(0, Number(item.amount || 0) - 1))}>−</button>
+              <button type="button" onClick={() => handleIngredientChange(i, 'amount', Math.max(0, Number(item.amount) - 1))}>−</button>
               <input
                 type="number"
                 min="0"
                 value={item.amount}
                 onChange={e => handleIngredientChange(i, 'amount', e.target.value)}
               />
-              <button type="button" onClick={() => handleIngredientChange(i, 'amount', Number(item.amount || 0) + 1)}>+</button>
+              <button type="button" onClick={() => handleIngredientChange(i, 'amount', Number(item.amount) + 1)}>+</button>
             </div>
 
-            {/* Unit */}
             <input
               type="text"
               placeholder="Unit (e.g., cup, tsp)"
@@ -95,7 +97,6 @@ function CreateRecipe() {
             />
           </div>
         ))}
-
 
         <button type="button" onClick={addIngredient} className="btn-add">+ Add Ingredient</button>
 

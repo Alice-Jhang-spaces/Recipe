@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+const API_BASE_URL = 'https://recipe-api-env.eba-vbe3vcqe.us-east-1.elasticbeanstalk.com';
+
 function Favorites() {
   const [favorites, setFavorites] = useState([]);
   const userId = localStorage.getItem('userId');
@@ -9,7 +11,7 @@ function Favorites() {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        const res = await axios.get(`http://localhost:3001/api/favorites/${userId}`);
+        const res = await axios.get(`${API_BASE_URL}/api/favorites/${userId}`);
         setFavorites(res.data);
       } catch (err) {
         console.error('Error loading favorites:', err);
@@ -34,7 +36,11 @@ function Favorites() {
             boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
             overflow: 'hidden'
           }}>
-            <img src={`http://localhost:3001${recipe.imageUrl}`} alt={recipe.name} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+            <img
+              src={`${API_BASE_URL}${recipe.imageUrl}`}
+              alt={recipe.name}
+              style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+            />
             <div style={{ padding: '15px' }}>
               <h3>{recipe.name}</h3>
               <p>{recipe.ingredients.map(ing => `${ing.amount} ${ing.unit} ${ing.name}`).join(', ')}</p>
