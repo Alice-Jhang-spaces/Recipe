@@ -1,4 +1,8 @@
-const API_BASE_URL = 'https://recipe-api-env.eba-vbe3vcqe.us-east-1.elasticbeanstalk.com/api';
+const isProd = import.meta.env.PROD;
+
+export const API_BASE_URL = isProd
+  ? 'https://recipe-api-env.eba-vbe3vcqe.us-east-1.elasticbeanstalk.com/api'
+  : '/api'; // Will be proxied to localhost:3001 by Vite during dev
 
 export const fetchRecipes = async () => {
   const res = await fetch(`${API_BASE_URL}/recipes`);
@@ -15,4 +19,3 @@ export const postRecipe = async (formData) => {
   if (!res.ok) throw new Error('Failed to post recipe');
   return res.json();
 };
-

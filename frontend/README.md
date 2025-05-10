@@ -19,7 +19,7 @@ A full-stack recipe web application where users can create, view, and manage rec
 - React Router
 - Axios
 - CSS (with optional Tailwind)
-- Local Storage for auth tokens
+
 
 ### Backend
 - Node.js
@@ -73,15 +73,13 @@ cd backend
 npm install
 
 Create a .env file in the backend directory:
-MONGO_URI=mongodb://localhost:27017/recipeApp
+
 JWT_SECRET=your_jwt_secret
 npm run dev
-This will launch the backend API at http://localhost:3001.
+
 
 ### 2 Frontend Setup
 
 cd ../frontend
 npm install
 npm run dev
-
-This will launch the frontend at http://localhost:5173
