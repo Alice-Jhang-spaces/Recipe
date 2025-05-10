@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../css/Login.css'; // Ensure this CSS file exists
+import '../css/Login.css'; // Reuse CSS styling
+
+const API_BASE = "http://recipe-api-env.eba-vbe3vcqe.us-east-1.elasticbeanstalk.com";
 
 function Register() {
   const [form, setForm] = useState({ username: '', email: '', password: '' });
@@ -12,15 +14,18 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('https://recipe-api-env.eba-vbe3vcqe.us-east-1.elasticbeanstalk.com/api/users/register', form);
+      const res = await axios.post(`${API_BASE}/api/users/register`, form);
       alert('Registration successful!');
-      // Optionally, store the token and redirect
-      localStorage.setItem('userId', response.data.userId); // backend must return it
-      localStorage.setItem('token', response.data.token);
 
+      // Store returned values if your backend provides them
+      localStorage.setItem('userId', res.data.userId);
+      localStorage.setItem('token', res.data.token);
+
+      // Optionally redirect to dashboard or login
+      // navigate('/login');
     } catch (err) {
       console.error(err);
-      alert('Error during registration.');
+      alert(err.response?.data?.message || 'Error during registration.');
     }
   };
 
@@ -35,6 +40,7 @@ function Register() {
           value={form.username}
           onChange={handleChange}
           className="login-input"
+          required
         />
         <input
           name="email"
@@ -43,6 +49,7 @@ function Register() {
           value={form.email}
           onChange={handleChange}
           className="login-input"
+          required
         />
         <input
           name="password"
@@ -51,6 +58,7 @@ function Register() {
           value={form.password}
           onChange={handleChange}
           className="login-input"
+          required
         />
         <button type="submit" className="login-button">Register</button>
       </form>
